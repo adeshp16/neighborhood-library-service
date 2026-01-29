@@ -2,10 +2,15 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 import os
 
-DATABASE_URL = os.getenv(
-    "DATABASE_URL",
-    "postgresql://postgres:password@localhost:5432/library_db"
-)
+DATABASE_URL = os.getenv("DATABASE_URL")
+if not DATABASE_URL:
+    raise RuntimeError(
+        "DATABASE_URL environment variable is not set.\n"
+        "Please set it to your PostgreSQL connection string before running the app.\n"
+        "Example:\n"
+        "  export DATABASE_URL=postgresql://username:password@localhost:5432/<db_name>\n"
+        "For this app, <db_name> should be 'library_db'."
+    )
 
 # Using connection pool for efficiency under concurrent requests
 # With pooling connections are reused efficiently, reducing latency and DB load
