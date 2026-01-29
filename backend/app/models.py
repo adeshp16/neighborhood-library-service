@@ -15,6 +15,8 @@ class Book(Base):
     #ISBN stands for International Standard Book Number
     isbn = Column(String, unique=True, nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+    published_year = Column(Integer, nullable=True)
+    copies_available = Column(Integer, nullable=True, default=1)
 
     # Returns a list of Borrowing objects related to this book
     # Example: all times this book was borrowed (past and present)
@@ -42,6 +44,7 @@ class Borrowing(Base):
     book_id = Column(Integer, ForeignKey("books.id"), nullable=False)
     member_id = Column(Integer, ForeignKey("members.id"), nullable=False)
     borrowed_at = Column(DateTime(timezone=True), server_default=func.now())
+    due_date = Column(DateTime(timezone=True), nullable=False)
     returned_at = Column(DateTime(timezone=True), nullable=True)
 
     # Creates a Python object reference from a Borrowing record to the related Book.
