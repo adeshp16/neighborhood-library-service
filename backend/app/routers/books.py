@@ -112,6 +112,13 @@ def delete_book(
             detail=f"Book id with {book_id} was not found in the database."
         )
     
+    book_borrowings_count = db.query(models.Borrowing).filter(models.Borrowing.book_id == book_id).count()
+    if book_borrowings_count > 0:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Cannot delete book as borrowings exists for it."
+        )
+    
     # delete the found book
     db.delete(db_book)
     db.commit()

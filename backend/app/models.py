@@ -20,7 +20,12 @@ class Book(Base):
 
     # Returns a list of Borrowing objects related to this book
     # Example: all times this book was borrowed (past and present)
-    borrowings = relationship("Borrowing", back_populates="book")
+    # Adde cascade here so if book is delete the borowwings are deleted too.
+    borrowings = relationship(
+        "Borrowing",
+        back_populates="book",
+        cascade="all, delete-orphan"
+    )
 
 # Members model
 class Member(Base):
@@ -34,7 +39,12 @@ class Member(Base):
 
     # member.borrowings → all Borrowing records associated with that member
     # Gives all books this member has borrowed (current + history)
-    borrowings = relationship("Borrowing", back_populates="member")
+    # Member model
+    borrowings = relationship(
+    "Borrowing",
+    back_populates="member",
+    cascade="all, delete-orphan"
+    )
 
 # Borrowing Model
 class Borrowing(Base):
