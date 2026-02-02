@@ -4,13 +4,13 @@ import { Book } from "@/app/types/book";
 import { Member } from "@/app/types/member";
 import { useState } from "react";
 import EditBookForm from "./EditBookForm";
-import BorrowBookForm from "./BorrowBookForm"; // ✅ Import new form
+import BorrowBookForm from "./BorrowBookForm";
 
 export default function BooksList({
   books,
-  members, // ✅ pass members from parent
+  members,
   onDeleteSuccess,
-  onBorrowSuccess, // optional callback to update copies
+  onBorrowSuccess,
 }: {
   books: Book[];
   members: Member[];
