@@ -7,22 +7,21 @@ The system exposes REST APIs built with Python and FastAPI, persists data in Pos
 
 ## Tech Stack
 
-* Backend: Python, FastAPI
-* Database: PostgreSQL
-* ORM: SQLAlchemy
-* Migrations: Alembic
-* Frontend: React (Next.js)
-* API Style: RESTs
+- Backend: Python, FastAPI
+- Database: PostgreSQL
+- ORM: SQLAlchemy
+- Migrations: Alembic
+- Frontend: React (Next.js)
+- API Style: RESTs
 
 ## Features
 
-* Create and update books
-* Create and update members
-* Borrow a book
-* Return a borrowed book
-* Query borrowed books by member
-* List currently borrowed books
-
+- Create and update books
+- Create and update members
+- Borrow a book
+- Return a borrowed book
+- Query borrowed books by member
+- List currently borrowed books
 
 ## Borrowing Rules & Fine Policy
 
@@ -32,48 +31,52 @@ The system exposes REST APIs built with Python and FastAPI, persists data in Pos
 - **Fine stops:** The fine calculation stops once the book is returned.
 - **Implementation:** Fine is **derived dynamically** and **not stored** in the database (best practice).
 
-
 ### API Documentation
-Full interactive API docs are available when the server is running:  
-- **Swagger UI:** [http://localhost:8000/docs](http://localhost:8000/docs)  
-- **ReDoc:** [http://localhost:8000/redoc](http://localhost:8000/redoc)  
+
+Full interactive API docs are available when the server is running:
+
+- **Swagger UI:** [http://localhost:8000/docs](http://localhost:8000/docs)
+- **ReDoc:** [http://localhost:8000/redoc](http://localhost:8000/redoc)
 
 ---
 
 ## API Endpoints Summary
 
 ### **Books**
-| Method | Endpoint          | Description                       |
-|--------|-----------------|-----------------------------------|
-| GET    | /books           | List all books                     |
-| POST   | /books           | Create a new book                  |
-| GET    | /books/{id}      | Get a book by ID                   |
-| PUT    | /books/{id}      | Update a book                      |
+
+| Method | Endpoint    | Description       |
+| ------ | ----------- | ----------------- |
+| GET    | /books      | List all books    |
+| POST   | /books      | Create a new book |
+| GET    | /books/{id} | Get a book by ID  |
+| PUT    | /books/{id} | Update a book     |
 
 ### **Members**
-| Method | Endpoint          | Description                       |
-|--------|-----------------|-----------------------------------|
-| GET    | /members         | List all members                   |
-| POST   | /members         | Create a new member                |
-| GET    | /members/{id}    | Get a member by ID                 |
-| PUT    | /members/{id}    | Update member details              |
+
+| Method | Endpoint      | Description           |
+| ------ | ------------- | --------------------- |
+| GET    | /members      | List all members      |
+| POST   | /members      | Create a new member   |
+| GET    | /members/{id} | Get a member by ID    |
+| PUT    | /members/{id} | Update member details |
 
 ### **Borrowings**
-| Method | Endpoint                    | Description                             |
-|--------|----------------------------|-----------------------------------------|
-| GET    | /borrowings                | List all borrowings                     |
-| POST   | /borrowings                | Borrow a book (creates a borrowing)    |
-| PUT    | /borrowings/{id}/return    | Return a borrowed book (auto sets returned_at and increments book copies) |
-| GET    | /borrowings/overdue        | List all overdue borrowings            |
+
+| Method | Endpoint                | Description                                                               |
+| ------ | ----------------------- | ------------------------------------------------------------------------- |
+| GET    | /borrowings             | List all borrowings                                                       |
+| POST   | /borrowings             | Borrow a book (creates a borrowing)                                       |
+| PUT    | /borrowings/{id}/return | Return a borrowed book (auto sets returned_at and increments book copies) |
+| GET    | /borrowings/overdue     | List all overdue borrowings                                               |
 
 ---
 
 ## Notes
+
 - `borrowed_at` and `returned_at` are timezone aware.
 - `due_date` is set during borrowing creation.
 - Fines are calculated automatically in the overdue API.
 - For full request/response details, see the Swagger docs at `/docs`.
-
 
 ## Developer Setup
 
@@ -113,12 +116,13 @@ pip install -r requirements.txt
 
 ### 4. Set Up PostgreSQL Database
 
-1. **Install PostgreSQL** (if not installed).  
-   - macOS: `brew install postgresql && brew services start postgresql`  
-   - Ubuntu: `sudo apt install postgresql postgresql-contrib`  
+1. **Install PostgreSQL** (if not installed).
+   - macOS: `brew install postgresql && brew services start postgresql`
+   - Ubuntu: `sudo apt install postgresql postgresql-contrib`
    - Windows: Install from [PostgreSQL official site](https://www.postgresql.org/download/windows/)
 
 2. **Create the database**:
+
 ```bash
 psql -U postgres
 CREATE DATABASE library_db;
@@ -126,6 +130,7 @@ CREATE DATABASE library_db;
 ```
 
 3. **Set environment variable for database connection**:
+
 ```bash
 export DATABASE_URL=postgresql://<username>:<password>@localhost:5432/library_db   # macOS/Linux
 set DATABASE_URL=postgresql://<username>:<password>@localhost:5432/library_db       # Windows CMD
@@ -143,9 +148,8 @@ cd backend
 alembic upgrade head
 ```
 
-> We are controlling the database schema through **Alembic**, which is a migration tool for SQLAlchemy. Alembic tracks changes to the models and allows you to apply those changes incrementally to the database. It automatically generates migration scripts that create or modify tables, indexes, and constraints so that the database stays in sync with the application models. This ensures a consistent, version-controlled way to evolve the database schema without losing data.
+> This creates all required tables (`books`, `members`, `borrowings`).
 
-> This step automatically creates all required tables (`books`, `members`, `borrowings`) and any future schema changes can also be applied via migrations.
 ---
 
 ### 6. Run the Backend Server
@@ -160,6 +164,100 @@ uvicorn main:app --reload
 
 ---
 
-✅ After these steps, the app is ready for development and testing.
+## 🖥️ Frontend Setup & Running the UI (Next.js)
 
+The project includes a minimal frontend built with **Next.js (React)** to interact with the backend APIs.
 
+### Prerequisites
+
+- **Node.js 18+** (recommended)
+- **npm** (comes with Node.js)
+
+Check versions:
+
+```bash
+node -v
+npm -v
+```
+
+---
+
+### 7. Install Frontend Dependencies
+
+Open a **new terminal window** (keep backend running) and navigate to the frontend directory:
+
+```bash
+cd frontend
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+> This installs React, Next.js, and other required UI dependencies.
+
+---
+
+### 8. Run the Frontend Development Server
+
+```bash
+npm run dev
+```
+
+- Frontend runs on:  
+  👉 **http://localhost:3000**
+- Backend must be running on:  
+  👉 **http://localhost:8000**
+
+The frontend is already configured to call backend APIs at `http://localhost:8000`.
+
+---
+
+### 9. Using the Application
+
+Once both servers are running:
+
+1. Open **http://localhost:3000**
+2. Use the sidebar to navigate:
+   - **Books Management**
+     - View, add, and edit books
+   - **Members Management**
+     - View and add members
+   - **Borrowings**
+     - Borrow books
+     - Return borrowed books
+     - View overdue borrowings
+     - See automatically calculated fines
+
+Overdue borrowings are visually highlighted in the UI.
+
+---
+
+### ⚠️ Important Notes for Reviewers
+
+- Backend **must be running first** before starting the frontend.
+- Fines are calculated dynamically by the backend and displayed in the UI.
+- No authentication is implemented (out of scope for this assignment).
+- This frontend is intentionally minimal and focused on API integration rather than UI polish.
+
+---
+
+## ✅ Quick Start (TL;DR)
+
+```bash
+# Terminal 1 – Backend
+cd backend
+uvicorn main:app --reload
+
+# Terminal 2 – Frontend
+cd frontend
+npm install
+npm run dev
+```
+
+Open:
+
+- API Docs → http://localhost:8000/docs
+- UI → http://localhost:3000
