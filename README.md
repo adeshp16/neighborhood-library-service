@@ -155,8 +155,8 @@ alembic upgrade head
 ### 6. Run the Backend Server
 
 ```bash
-cd app
-uvicorn main:app --reload
+cd backend
+uvicorn app.main:app --reload
 ```
 
 - FastAPI will run on `http://127.0.0.1:8000`
