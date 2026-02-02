@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react"; // ✅ import React and hooks
+import React, { useEffect, useRef, useState } from "react";
 import AddBookForm from "@/app/components/AddBookForm";
 import BooksList from "@/app/components/BooksList";
 import { Book } from "@/app/types/book";
@@ -12,7 +12,7 @@ type Props = {
 };
 
 export default function BooksContent({ books, setBooks }: Props) {
-  const [members, setMembers] = useState<Member[]>([]); // ✅ useState directly
+  const [members, setMembers] = useState<Member[]>([]);
   const hasFetched = useRef(false);
 
   useEffect(() => {

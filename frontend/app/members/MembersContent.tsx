@@ -15,11 +15,6 @@ export default function MembersContent() {
     fetchMembers();
   }, []);
 
-  // async function fetchMembers() {
-  //   const res = await fetch("http://localhost:8000/members");
-  //   const data = await res.json();
-  //   setMembers(data);
-  // }
   async function fetchMembers() {
     console.log("Fetching members from backend...");
     const res = await fetch("http://localhost:8000/members");

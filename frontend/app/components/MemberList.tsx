@@ -27,7 +27,6 @@ export default function MemberList({ members, onDeleteSuccess }: Props) {
         return;
       }
 
-      // ✅ Call parent callback to update UI
       if (onDeleteSuccess) onDeleteSuccess(member.id);
     } catch (err) {
       console.error("Failed to delete member:", err);
