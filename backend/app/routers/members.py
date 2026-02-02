@@ -133,6 +133,12 @@ def delete_member(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f" Member with id {member_id} not found."
         )
+    
+    if member.borrowings:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Cannot delete member with borrowings"
+        )
 
     db.delete(member)
     db.commit()
